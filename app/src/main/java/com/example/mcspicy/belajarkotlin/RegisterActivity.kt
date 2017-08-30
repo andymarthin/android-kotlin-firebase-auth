@@ -45,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
                             registerRef.setValue(user).addOnSuccessListener(){
                                 val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                                 startActivity(intent)
+                                finish()
                             }
                         }
                     }
