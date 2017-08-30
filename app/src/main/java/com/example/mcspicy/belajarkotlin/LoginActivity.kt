@@ -3,12 +3,11 @@ package com.example.mcspicy.belajarkotlin
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -21,23 +20,25 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
         email = findViewById(R.id.email) as EditText
         password = findViewById(R.id.password) as EditText
         loginButton = findViewById(R.id.loginButton) as Button
         registerButtton = findViewById(R.id.registerButton) as Button
-        auth = FirebaseAuth.getInstance();
 
-        registerButtton.setOnClickListener(){
+        registerButtton.setOnClickListener{
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
         }
 
-        loginButton.setOnClickListener(){
-            auth.signInWithEmailAndPassword(email.toString(), password.toString())
-                    .addOnSuccessListener {
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
+        loginButton.setOnClickListener{
+            auth = FirebaseAuth.getInstance()
+            auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString()).
+                    addOnCompleteListener { task: Task<AuthResult> ->
+                        val intentToMain = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intentToMain)
                     }
+
         }
     }
 }
