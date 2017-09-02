@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun loadData(userId: String){
@@ -65,7 +64,8 @@ class MainActivity : AppCompatActivity() {
                 //
             }
         }
-        database.reference.child("user").child(userId).addListenerForSingleValueEvent(dataListener)
+        database.reference.child("user")
+                .child(userId).addListenerForSingleValueEvent(dataListener)
 
     }
 
