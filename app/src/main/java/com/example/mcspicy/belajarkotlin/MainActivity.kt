@@ -3,6 +3,7 @@ package com.example.mcspicy.belajarkotlin
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -41,12 +42,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isLogin(){
-        if(auth.currentUser != null){
-           loadData(auth.currentUser?.uid as String)
-        }else{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+
+        auth.currentUser?.uid?.let { loadData(it)  } ?: startActivity(intent)
+
     }
 
     private fun loadData(userId: String){
